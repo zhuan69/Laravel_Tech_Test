@@ -6,10 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    @foreach ($resultIndex as $item)
-        <p>{{$item->id}}</p>
-        <p>{{$item->product_name}}</p>
-        <p>{{$item->price}}</p>
-    @endforeach
+    <form action="" method="post">
+        @csrf
+        <textarea name="product" id="" cols="30" rows="10" placeholder="Product"></textarea>
+        <textarea name="shipping_address" id="" cols="30" rows="10" placeholder="Shipping Address"></textarea>
+        <input type="number" name="price" id="" placeholder="Price">
+    </form>
 </body>
 </html>
