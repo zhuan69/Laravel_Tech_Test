@@ -14,10 +14,16 @@ class UsersController extends Controller
         $this->userServices = $userServices;
     }
 
+    public function getLoginPage()
+    {
+        return view('login');
+    }
+
     public function login(Request $request)
     {
         $this->userServices->login($request->all());
-        return response()->json(['Message' => 'Login sukses']);
+        // return redirect('product-list');
+        return 'Berhasil login';
     }
 
     public function getRegisterPage()

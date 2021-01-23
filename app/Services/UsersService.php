@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use Whoops\Exception\ErrorException;
 
 class UsersService
 {
@@ -11,10 +10,7 @@ class UsersService
     {
         $email = $inputBody['email'];
         $password = $inputBody['password'];
-        $userData = User::where(`email = $email AND password = $password`)->findOrFail();
-        if (!$userData) {
-            throw new ErrorException("wrong email or password", 400);
-        }
+        $userData = User::where(`email = $email AND password = $password`)->findOrFail(1);
         return $userData;
     }
 
