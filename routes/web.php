@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,3 +16,7 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::get('/product-list', [ProductController::class, 'indexProduct']);
+Route::get('/register', [UsersController::class, 'getRegisterPage']);
+Route::post('/register', [UsersController::class, 'register'])->name('register.user');
+Route::get('/', [UsersController::class, 'getLoginPage'])->name('login.page');
+Route::post('/', [UsersController::class, 'login'])->name('login.post');
