@@ -25,4 +25,9 @@ class UsersService
         $resultRegister = User::create(['name' => $inputBody['name'], 'email' => $inputBody['email'], 'password' => $inputBody['password']]);
         return $resultRegister;
     }
+
+    public function updateUser(int $userId, $valueUpdate)
+    {
+        return User::where('id', $userId)->update($valueUpdate);
+    }
 }

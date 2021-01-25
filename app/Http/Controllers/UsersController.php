@@ -22,7 +22,6 @@ class UsersController extends Controller
     public function login(Request $request)
     {
         $this->userServices->login($request->all());
-        // return redirect('product-list');
         return 'Berhasil login';
     }
 
