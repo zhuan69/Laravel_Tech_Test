@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\TopUp;
 use App\Services\UsersService;
 use Carbon\Carbon;
 use Exception;
@@ -45,6 +46,11 @@ class TopUpService
                     'phone_number' => $inputBody['phone_number'],
                     'balance' => $inputBody['balance'],
                 ]);
+            TopUp::create([
+                'users_id' => $userUpdateBalance->id,
+                'phone_number' => $inputBody['phone_number'],
+                'value' => $inputBody['balance'],
+            ]);
             return $userUpdateBalance;
         } catch (Exception $error) {
             throw $error->getMessage();

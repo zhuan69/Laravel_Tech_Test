@@ -18,4 +18,8 @@ class Order extends Model
     {
         return $this->belongsTo(User::class, 'users_id', 'id');
     }
+    public function topUpHistory()
+    {
+        return $this->belongsTo(TopUp::class, 'topup_id', 'id');
+    }
 }
