@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $table = 'products';
 
-    public function product()
+    public function order()
     {
         return $this->hasMany(Order::class, 'product_id', 'id');
     }
