@@ -11,10 +11,11 @@ class CreateOrderTable extends Migration
         Schema::enableForeignKeyConstraints();
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->unique()->primary();
-            $table->bigInteger('order_no');
+            $table->bigInteger('order_no')->unique();
             $table->uuid('shipping_code');
             $table->integer('total_price');
             $table->timestamp('order_date');
+            $table->string('order_type');
             $table->foreignId('users_id')->constrained();
             $table->foreignId('product_id')->constrained();
             $table->index('product_id');
