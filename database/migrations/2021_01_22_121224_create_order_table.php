@@ -17,8 +17,10 @@ class CreateOrderTable extends Migration
             $table->timestamp('order_date');
             $table->string('order_type');
             $table->foreignId('users_id')->constrained();
+            $table->foreignId('topup_id')->constrained('topup_history');
             $table->foreignId('product_id')->constrained();
             $table->index('product_id');
+            $table->index('topup_id');
             $table->index('users_id');
         });
     }
