@@ -33,10 +33,11 @@ class OrderService
     public function topUpOrder($userId, $value)
     {
         $topUpData = $this->topUpService->topUpBalance($value, $userId);
-        if ($topUpData === 'Failed') {
+        if ($topUpData['message'] === 'Failed') {
             $value['order_status'] = 'Failed';
         } else {
             $value['order_status'] = 'Success';
+            (int) $value['price'] += ((int) $value['price'] * 0.05);
         }
         $value['topup_id'] = $topUpData['data']->id;
         $createOrder = $this->createOrder($userId, $value);
@@ -48,6 +49,7 @@ class OrderService
         $productData = $this->productService->findByName($value['product_name']);
         $productId = $productData->id;
         $value['product_id'] = $productId;
+        (int) $value['price'] += 10000;
         $value['order_status'] = 'Success';
         $createOrder = $this->createOrder($userId, $value);
         return $createOrder;
