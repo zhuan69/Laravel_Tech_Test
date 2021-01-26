@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    @include('header')
     <form action="{{route('topup.post')}}" method="post">
     @csrf
     <input type="text" name="phone_number" placeholder="Number Phone" value="{{$phonePrefix}}" minlength="7" maxlength="12">

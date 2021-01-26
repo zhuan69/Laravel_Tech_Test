@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TopUpController extends Controller
 {
@@ -22,7 +23,8 @@ class TopUpController extends Controller
     public function topUp(Request $request)
     {
         $inputBody = $request->all();
-        $resultTopUp = $this->orderService->topUpOrder(1, $inputBody);
+        $userId = Auth::user()->id;
+        $resultTopUp = $this->orderService->topUpOrder($userId, $inputBody);
         return dd($resultTopUp);
     }
 }

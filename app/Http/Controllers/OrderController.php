@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\OrderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -14,7 +15,8 @@ class OrderController extends Controller
     }
     public function getHistoryOrderPage(Request $request)
     {
-        $resultHistory = $this->orderService->getHistoryOrder(1);
+        $userId = Auth::user()->id;
+        $resultHistory = $this->orderService->getHistoryOrder($userId);
         return view('order-history', compact('resultHistory'));
     }
 }

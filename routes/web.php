@@ -21,8 +21,10 @@ Route::get('/register', [UsersController::class, 'getRegisterPage'])->name('logi
 Route::post('/register', [UsersController::class, 'register'])->name('register.user');
 Route::get('/', [UsersController::class, 'getLoginPage'])->name('login.page');
 Route::post('/', [UsersController::class, 'login'])->name('login.post');
-Route::get('/product-list', [ProductController::class, 'indexProduct'])->name('product.page');
-Route::post('/product-order', [ProductController::class, 'orderProduct'])->name('product.order');
-Route::get('/top-up', [TopUpController::class, 'getTopUpPage'])->name('top-up.page');
-Route::post('/top-up', [TopUpController::class, 'topUp'])->name('topup.post');
-Route::get('/order-history', [OrderController::class, 'getHistoryOrderPage'])->name('order.history');
+Route::middleware(['authRoute'])->group(function () {
+    Route::get('/product-list', [ProductController::class, 'indexProduct'])->name('product.page');
+    Route::post('/product-order', [ProductController::class, 'orderProduct'])->name('product.order');
+    Route::get('/top-up', [TopUpController::class, 'getTopUpPage'])->name('topup.page');
+    Route::post('/top-up', [TopUpController::class, 'topUp'])->name('topup.post');
+    Route::get('/order-history', [OrderController::class, 'getHistoryOrderPage'])->name('order.history');
+});

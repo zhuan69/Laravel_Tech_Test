@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    @include('header')
     <form action="{{route('product.order')}}" method="post">
         @csrf
         <textarea name="product_name" id="" cols="30" rows="10" placeholder="Product"></textarea>

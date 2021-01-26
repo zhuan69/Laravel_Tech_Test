@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+    @include('header')
    @foreach ($resultHistory as $item)
        @if (isset($item->product_id))
            <div>

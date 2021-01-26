@@ -21,8 +21,8 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-        $this->userServices->login($request->all());
-        return 'Berhasil login';
+        $credentials = $request->only('email', 'password');
+        return $this->userServices->login($credentials);
     }
 
     public function getRegisterPage()

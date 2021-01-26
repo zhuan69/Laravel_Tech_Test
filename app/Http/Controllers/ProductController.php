@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -26,7 +27,8 @@ class ProductController extends Controller
     public function orderProduct(Request $request)
     {
         $inputBody = $request->all();
-        $orderResult = $this->orderService->productOrder(1, $inputBody);
+        $userId = Auth::user()->id;
+        $orderResult = $this->orderService->productOrder($userId, $inputBody);
         return dd($orderResult);
     }
 }

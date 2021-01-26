@@ -3,15 +3,19 @@
 namespace App\Services;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UsersService
 {
     public function login($inputBody)
     {
-        $email = $inputBody['email'];
-        $password = $inputBody['password'];
-        $userData = User::where(`email = $email AND password = $password`)->firstOrFail();
-        return $userData;
+        if (Auth::attempt($inputBody)) {
+            request()->session()->regenerate();
+            return redirect()->intended('/product-list');
+        }
+        return back()->withErrors(
+            ['email' => 'Email atau password salah', 'password' => 'Email atau password salah']
+        );
     }
 
     public function getRegisterPage()
