@@ -40,8 +40,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public $timestamps = false;
+
     public function order()
     {
         return $this->hasMany(Order::class, 'users_id', 'id');
+    }
+    public function topupHistory()
+    {
+        return $this->hasMany(TopUp::class, 'users_id', 'id');
     }
 }

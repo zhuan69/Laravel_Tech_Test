@@ -12,7 +12,7 @@ class ProductService
     }
     public function findByName($productName)
     {
-        $resultData = Product::where('product_name', $productName)->findOrFail(1);
+        $resultData = Product::where('product_name', $productName)->firstOrFail();
         return $resultData;
     }
     public function findById($productId)

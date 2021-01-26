@@ -9,9 +9,14 @@ class TopUp extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+    public $timestamps = false;
+
+    protected $table = 'topup_history';
+
     public function users()
     {
-        return $this->hasMany(User::class, 'users_id', 'id');
+        return $this->belongsTo(User::class, 'users_id', 'id');
     }
     public function order()
     {
