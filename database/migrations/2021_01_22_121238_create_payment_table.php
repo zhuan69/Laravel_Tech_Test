@@ -12,7 +12,7 @@ class CreatePaymentTable extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->uuid('id')->primary()->unique();
             $table->foreignUuid('order_id')->constrained();
-            $table->boolean('payment_status');
+            $table->string('payment_status');
             $table->index('order_id');
         });
     }

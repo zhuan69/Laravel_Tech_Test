@@ -21,10 +21,15 @@ class OrderService
         $this->topUpService = $topUpService;
     }
 
+    public function findById($orderId)
+    {
+        return Order::where('id', $orderId)->firstOrFail();
+    }
+
     public function getHistoryOrder(int $userId)
     {
         $getIndexOrder = Order::where('users_id', $userId)
-            ->with(['user', 'product', 'topUpHistory'])
+            ->with(['user', 'product', 'topUpHistory', 'payment'])
             ->orderByDesc('order_date')
             ->paginate(20);
         return $getIndexOrder;
@@ -32,12 +37,12 @@ class OrderService
 
     public function topUpOrder($userId, $value)
     {
+        (int) $value['price'] += ((int) $value['price'] * 0.05);
         $topUpData = $this->topUpService->topUpBalance($value, $userId);
         if ($topUpData['message'] === 'Failed') {
             $value['order_status'] = 'Failed';
         } else {
             $value['order_status'] = 'Success';
-            (int) $value['price'] += ((int) $value['price'] * 0.05);
         }
         $value['topup_id'] = $topUpData['data']->id;
         $createOrder = $this->createOrder($userId, $value);
