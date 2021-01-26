@@ -25,27 +25,19 @@ class TopUpService
             $successRate = 90;
             if ($percentage < $successRate) {
                 $topUpResult = $this->updateUserBalance($userId, $inputBody);
-                $result = [
-                    'data' => $topUpResult,
-                    'message' => $sucessMessage,
-                ];
-                return $result;
+                return $this->returnFormat($topUpResult, $sucessMessage);
             } else {
                 $topUpResult = $this->createHistoryTopUp($userId, $inputBody);
-                $result = [
-                    'data' => $topUpResult,
-                    'message' => $failedMessage,
-                ];
-                return $result;
+                return $this->returnFormat($topUpResult, $failedMessage);
             }
         } else {
             $successRate = 40;
             if ($percentage < $successRate) {
-                $this->updateUserBalance($userId, $inputBody);
-                return $sucessMessage;
+                $topUpResult = $this->updateUserBalance($userId, $inputBody);
+                return $this->returnFormat($topUpResult, $sucessMessage);
             } else {
-                $this->createHistoryTopUp($userId, $inputBody);
-                return $failedMessage;
+                $topUpResult = $this->createHistoryTopUp($userId, $inputBody);
+                return $this->returnFormat($topUpResult, $failedMessage);
             }
         }
     }
@@ -58,7 +50,6 @@ class TopUpService
                     'phone_number' => $inputBody['phone_number'],
                     'balance' => $inputBody['price'],
                 ]);
-            //$id = $userUpdateBalance->id;
             return $userUpdateBalance;
         } catch (Exception $error) {
             throw $error;
@@ -73,7 +64,12 @@ class TopUpService
                 'value' => $body['price'],
             ]);
         } catch (Exception $error) {
-            return $error->getMessage();
+            return $error;
         }
+    }
+
+    private function returnFormat($queryData, $message)
+    {
+        return ['data' => $queryData, 'message' => $message];
     }
 }
