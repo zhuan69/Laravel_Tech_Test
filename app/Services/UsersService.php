@@ -10,7 +10,7 @@ class UsersService
     {
         $email = $inputBody['email'];
         $password = $inputBody['password'];
-        $userData = User::where(`email = $email AND password = $password`)->findOrFail(1);
+        $userData = User::where(`email = $email AND password = $password`)->firstOrFail();
         return $userData;
     }
 

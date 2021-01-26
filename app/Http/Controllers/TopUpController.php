@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TopUpService;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class TopUpController extends Controller
 {
-    protected $topUpService;
+    protected $orderService;
 
-    public function __construct(TopUpService $topUpService)
+    public function __construct(OrderService $orderService)
     {
-        $this->topUpService = $topUpService;
+        $this->orderService = $orderService;
     }
 
     public function getTopUpPage()
@@ -21,8 +21,8 @@ class TopUpController extends Controller
     }
     public function topUp(Request $request)
     {
-        //$userId = $request->id();
-        $resultTopUp = $this->topUpService->topUpBalance($request->all(), 1);
+        $inputBody = $request->all();
+        $resultTopUp = $this->orderService->topUpOrder(1, $inputBody);
         return dd($resultTopUp);
     }
 }

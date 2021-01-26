@@ -9,8 +9,8 @@
 <body>
     <form action="{{route('topup.post')}}" method="post">
     @csrf
-    <input type="text" name="phone_number" placeholder="Number Phone" value="{{$phonePrefix}}">
-    <input type="number" name="balance" placeholder="Value">
+    <input type="text" name="phone_number" placeholder="Number Phone" value="{{$phonePrefix}}" minlength="7" maxlength="12">
+    <input type="number" name="price" placeholder="Value">
     <button type="submit">Top Up</button>
     </form>
 </body>

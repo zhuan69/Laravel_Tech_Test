@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\TopUp;
 use App\Services\UsersService;
 use Carbon\Carbon;
 use Exception;
@@ -16,38 +17,63 @@ class TopUpService
     public function topUpBalance($inputBody, int $userId)
     {
         $currentTime = Carbon::now()->toTimeString();
-        $errorChanceMessage = 'Top Up anda gagal';
-        $inputBody['balance'] = (int) $inputBody['balance'];
+        $sucessMessage = 'Success';
+        $failedMessage = 'Failed';
+        $inputBody['price'] = (int) $inputBody['price'];
         $percentage = rand(0, 100);
         if ($currentTime >= '09:00:00' && $currentTime <= '17:00:00') {
             $successRate = 90;
             if ($percentage < $successRate) {
-                $updateBalance = $this->updateUserBalance($userId, $inputBody);
-                return $updateBalance;
+                $topUpResult = $this->updateUserBalance($userId, $inputBody);
+                $result = [
+                    'data' => $topUpResult,
+                    'message' => $sucessMessage,
+                ];
+                return $result;
             } else {
-                return $errorChanceMessage;
+                $topUpResult = $this->createHistoryTopUp($userId, $inputBody);
+                $result = [
+                    'data' => $topUpResult,
+                    'message' => $failedMessage,
+                ];
+                return $result;
             }
         } else {
             $successRate = 40;
             if ($percentage < $successRate) {
-                $updateBalance = $this->updateUserBalance($userId, $inputBody);
-                return $updateBalance;
+                $this->updateUserBalance($userId, $inputBody);
+                return $sucessMessage;
             } else {
-                return $errorChanceMessage;
+                $this->createHistoryTopUp($userId, $inputBody);
+                return $failedMessage;
             }
         }
     }
     private function updateUserBalance(int $userId, $inputBody)
     {
         try {
-            $userUpdateBalance = $this->userService->updateUser($userId,
+            $userUpdateBalance = $this->createHistoryTopUp($userId, $inputBody);
+            $this->userService->updateUser($userId,
                 [
                     'phone_number' => $inputBody['phone_number'],
-                    'balance' => $inputBody['balance'],
+                    'balance' => $inputBody['price'],
                 ]);
+            //$id = $userUpdateBalance->id;
             return $userUpdateBalance;
         } catch (Exception $error) {
-            throw $error->getMessage();
+            throw $error;
+        }
+    }
+    private function createHistoryTopUp(int $userId, $body)
+    {
+        try {
+            return TopUp::create([
+                'users_id' => $userId,
+                'phone_number' => $body['phone_number'],
+                'value' => $body['price'],
+            ]);
+        } catch (Exception $error) {
+            return $error->getMessage();
         }
     }
 }

@@ -6,11 +6,12 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="{{route('product.order')}}" method="post">
         @csrf
-        <textarea name="product" id="" cols="30" rows="10" placeholder="Product"></textarea>
+        <textarea name="product_name" id="" cols="30" rows="10" placeholder="Product"></textarea>
         <textarea name="shipping_address" id="" cols="30" rows="10" placeholder="Shipping Address"></textarea>
         <input type="number" name="price" id="" placeholder="Price">
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>

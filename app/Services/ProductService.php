@@ -10,4 +10,14 @@ class ProductService
         $indexData = Product::all();
         return $indexData;
     }
+    public function findByName($productName)
+    {
+        $resultData = Product::where('product_name', $productName)->firstOrFail();
+        return $resultData;
+    }
+    public function findById($productId)
+    {
+        $resultData = Product::find($productId);
+        return $resultData;
+    }
 }
