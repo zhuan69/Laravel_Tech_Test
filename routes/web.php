@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TopUpController;
 use App\Http\Controllers\UsersController;
@@ -27,4 +28,6 @@ Route::middleware(['authRoute'])->group(function () {
     Route::get('/top-up', [TopUpController::class, 'getTopUpPage'])->name('topup.page');
     Route::post('/top-up', [TopUpController::class, 'topUp'])->name('topup.post');
     Route::get('/order-history', [OrderController::class, 'getHistoryOrderPage'])->name('order.history');
+    Route::get('/pay-order/{id}', [PaymentController::class, 'getPayOrderPage'])->name('payorder.page');
+    Route::post('/pay/{id}', [PaymentController::class, 'createPayment'])->name('payment.order');
 });

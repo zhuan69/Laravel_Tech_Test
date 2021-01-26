@@ -13,23 +13,22 @@
            <div>
                <p>{{$item->order_no}} {{$item->total_price}}</p>
                <p>{{$item->product->product_name}} that cost {{$item->product->price}}</p>
-               @if ($item->order_status === 'Not Pay')
-               <button type="submit">Pay Now</button>
+               @if (isset($item->payment))
+                   <p>{{$item->shipping_code}}</p>
                @else
-               <p>{{$item->shipping_code}}</p>  
+                   <a href="{{route('payorder.page',['id'=>$item->id])}}"><button type="submit">Pay Now</button></a>
                @endif
            </div>
        @else
        <div>
         <p>{{$item->order_no}} {{$item->total_price}}</p>
         <p>{{$item->topUpHistory->value}} for number {{$item->topUpHistory->phone_number}}</p>
-        @if ($item->order_status === 'Not Pay')
-               <button type="submit">Pay Now</button>
-               @else
-               <p>{{$item->order_status}}</p>  
-               @endif
+        <p>{{$item->order_status}}</p>
     </div>
        @endif
    @endforeach
+   <div>    
+   {{$resultHistory->links()}}
+</div>
 </body>
 </html>

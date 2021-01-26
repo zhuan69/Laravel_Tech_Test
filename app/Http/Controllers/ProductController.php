@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\OrderService;
+use App\Services\PaymentService;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +12,13 @@ class ProductController extends Controller
 {
     protected $productService;
     protected $orderService;
+    protected $paymentService;
 
-    public function __construct(ProductService $productService, OrderService $orderService)
+    public function __construct(ProductService $productService, OrderService $orderService, PaymentService $paymentService)
     {
         $this->productService = $productService;
         $this->orderService = $orderService;
+        $this->paymentService = $paymentService;
     }
 
     public function indexProduct()
@@ -29,6 +32,9 @@ class ProductController extends Controller
         $inputBody = $request->all();
         $userId = Auth::user()->id;
         $orderResult = $this->orderService->productOrder($userId, $inputBody);
-        return dd($orderResult);
+        $orderResult['product_name'] = $inputBody['product_name'];
+        $orderResult['address'] = $inputBody['shipping_address'];
+        $redirectPaymentPage = $this->paymentService->redirectPayPage($orderResult);
+        return $redirectPaymentPage;
     }
 }

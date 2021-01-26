@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $guarded = [];
     public $timestamps = false;
 
@@ -23,5 +25,9 @@ class Order extends Model
     public function topUpHistory()
     {
         return $this->belongsTo(TopUp::class, 'topup_id', 'id');
+    }
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class, 'id', 'order_id');
     }
 }
